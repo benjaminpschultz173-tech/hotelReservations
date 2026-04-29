@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; background: #FAF8F4; }
+        .res-box { background: #FFFFFF; padding: 20px; border: 1px solid #FFFFFF; border-radius: 8px; }
+        .msg { padding: 10px; margin-bottom: 20px; border-radius: 4px; background-color: #e2f3f5; color: #007bff; color: #d9534f; background-color: #FFFFFF; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #E4E8EA; padding: 12px; text-align: left; background-color: #FFFFFF; }
+        th { background-color: #FFFFFF; }
+        button:hover { background-color: #7AA9CC; }
+        h1 { color: #38424A; }
+        h3 { color: #38424A; }
+    </style>
+</head>
+<body>
+    <h1>Welcome, {{ name }}!</h1>
+    
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="msg">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="res-box">
+        <h3>Book a Reservation</h3>
+        <form action="/reserve" method="post">
+            <label>Date:</label>
+            <input type="date" name="date" required>
+            <label>Time:</label>
+            <input type="time" name="time" required>
+            <button type="submit" style="background-color: #8FB8D8; color: white; padding: 10px; border: none; cursor: pointer;">Book Now</button>
+        </form>
+    </div>
+
+    <h3>My Current Reservations</h3>
+    <table>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>ID</th>
+        </tr>
+        {% for res in reservations %}
+        <tr>
+            <td>{{ res.date }}</td>
+            <td>{{ res.time }}</td>
+            <td style="color: grey; font-size: 0.8em;">{{ res.reservation_id }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3">No reservations found.</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><a href="/logout">Logout</a></p>
+</body>
+</html>
